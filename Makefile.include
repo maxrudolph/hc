@@ -14,8 +14,4 @@ ADD_FLAGS =
 
 GGRD_INC_FLAGS = -I$(GMTHOME)/include -I$(NETCDFDIR)/include 
 GGRD_LIBS_LINKLINE = -lggrd -lgmt -lpsl -lnetcdf 
-<<<<<<< HEAD
 LDFLAGS = -L$(NETCDFDIR)/lib -lnetcdf
-=======
-LDFLAGS = -lnetcdf
->>>>>>> ce08976... stupid bug

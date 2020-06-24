@@ -13,7 +13,7 @@ GMTHOME=/opt/gmt4
 #NETCDFHOME=/usr/local
 #HCHOME=/usr/local/hc
 #
-GMTHOME=/sw/
+#GMTHOME=/sw/
 NETCDFHOME=/sw/lib
 HCHOME=/usr/local/hc
 #
