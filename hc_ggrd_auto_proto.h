@@ -19,6 +19,8 @@ unsigned char ggrd_grdtrack_interpolate_tp(double, double, struct ggrd_gt *, dou
 unsigned char ggrd_grdtrack_interpolate_xy(double, double, struct ggrd_gt *, double *, unsigned char);
 void ggrd_grdtrack_free_gstruc(struct ggrd_gt *);
 void ggrd_find_spherical_vel_from_rigid_cart_rot(double *, double *, double *, double *, double *);
+int ggrd_grdtrack_init(double *, double *, double *, double *, float **, int *, char *, struct GRD_HEADER **, struct GMT_EDGEINFO **, char *, unsigned char *, GMT_LONG *, unsigned char, char *, float **, int *, GMT_LONG, unsigned char, unsigned char, struct GMT_BCR *);
+void ggrd_print_layer_avg(float *, float *, int, int, int, FILE *, GMT_LONG *);
 unsigned char ggrd_grdtrack_interpolate(double *, unsigned char, struct GRD_HEADER *, float *, struct GMT_EDGEINFO *, int, float *, int, double *, unsigned char, struct GMT_BCR *);
 int ggrd_init_thist_from_file(struct ggrd_t *, char *, unsigned char, unsigned char);
 void ggrd_gt_interpolate_z(double, float *, int, int *, int *, double *, double *, unsigned char, unsigned char *);
