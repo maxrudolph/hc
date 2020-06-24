@@ -257,7 +257,7 @@ void hc_compute_residual(struct hc_parameters *p, struct sh_lms *g1,struct sh_lm
 			    HC_PREC *c,int mode,hc_boolean verbose)
 {
   int lmaxg;
-  lmaxg = MIN(g1->lmax,g1->lmax);
+  lmaxg = HC_MIN(g1->lmax,g1->lmax);
 
   switch(mode){
   case 0:			/* 1...LMAX */
@@ -266,7 +266,7 @@ void hc_compute_residual(struct hc_parameters *p, struct sh_lms *g1,struct sh_lm
     c[0] = sh_residual_per_degree(g1,g2,1,lmaxg,0);    
     break;
   case 1:			/* 1...20 and 4..7 correlations */
-    lmaxg = MIN(20,lmaxg);
+    lmaxg = HC_MIN(20,lmaxg);
     if(verbose)
       fprintf(stderr,"hc_compute_residual: computing 1...%i and 2..7 residuals\n",lmaxg);
     c[0] = sh_residual_per_degree(g1,g2,1,lmaxg,0);
@@ -274,7 +274,7 @@ void hc_compute_residual(struct hc_parameters *p, struct sh_lms *g1,struct sh_lm
     break;
   case 2:
     /* print degree-by-degree correlations */
-    lmaxg = MIN(20,lmaxg);
+    lmaxg = HC_MIN(20,lmaxg);
     if(verbose)
       fprintf(stderr,"hc_compute_residual: computing residual for degrees %d-%d\n",p->residual_lmin,p->residual_lmax);
     int ideg;
