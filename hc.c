@@ -58,6 +58,7 @@ int main(int argc, char **argv)
   char filename[HC_CHAR_LENGTH],file_prefix[10];
   HC_PREC *sol_spatial = NULL;	/* spatial solution,
 				   e.g. velocities */
+  HC_PREC corr[2];			/* correlations */
   static hc_boolean geoid_binary = FALSE;	/* type of geoid output */
   static HC_CPREC unitya[1] = {1.0};
   /* 
