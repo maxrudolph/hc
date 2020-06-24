@@ -242,34 +242,48 @@ int main(int argc, char **argv)
   
   /* compute the geoid? */
   if(p->compute_geoid){
-    /* 
-       print geoid solution 
-    */
-    if(p->print_kernel_only)
-      sprintf(filename,"%s",HC_GEOID_KERNEL_FILE);
-    else
-      sprintf(filename,"%s",HC_GEOID_FILE);
-    if(p->verbose)
-      fprintf(stderr,"%s: writing geoid %sto %s, %s\n",argv[0],
-	      ((p->print_kernel_only)?("kernels "):("")),filename,
-	      (p->compute_geoid == 1)?("at surface"):("all layers"));
-    out = hc_fopen(filename,"w","main");	
-    if(p->print_kernel_only){
-      hc_print_geoid_kernel(geoid,model->r,model->nradp2,out,p->verbose);
-    }else{			/* geoid solutions */
-      if(p->compute_geoid == 1) /* surface layer */
-	hc_print_sh_scalar_field(geoid,out,FALSE,geoid_binary,p->verbose);
-      else{			/* all layers */
-	for(i=0;i < model->nradp2;i++){
-	  sh_print_parameters_to_stream((geoid+i),1,i,model->nradp2,
-					HC_Z_DEPTH(model->r[i]),out,
-					FALSE,geoid_binary,p->verbose); 
-	  sh_print_coefficients_to_stream((geoid+i),1,out,
-					  unitya,geoid_binary,p->verbose); 
+    if(p->compute_geoid_correlations){
+      if(p->compute_geoid == 2){ /* check if all geoids were computed */
+	fprintf(stderr,"%s: ERROR: can only compute correlation for surface geoid, geoid = %i\n",
+		argv[0],p->compute_geoid);
+	exit(-1);
+      }
+      if(p->verbose)
+	fprintf(stderr,"%s: correlation for geoid with %s\n",argv[0],p->ref_geoid_file);
+      hc_compute_correlation(geoid,p->ref_geoid,corr,1,p->verbose);
+      fprintf(stdout,"%10.7f %10.7f\n",(double)corr[0],(double)corr[1]);
+      hc_compute_residual(p,geoid,p->ref_geoid,corr,2,p->verbose);
+      fprintf(stdout,"%10.7f %10.7f\n",(double)corr[0],(double)corr[1]);
+    }else{
+      /* 
+	 print geoid solution 
+      */
+      if(p->print_kernel_only)
+	sprintf(filename,"%s",HC_GEOID_KERNEL_FILE);
+      else 
+	sprintf(filename,"%s",HC_GEOID_FILE);
+      if(p->verbose)
+	fprintf(stderr,"%s: writing geoid %sto %s, %s\n",argv[0],
+		((p->print_kernel_only)?("kernels "):("")),filename,
+		(p->compute_geoid == 1)?("at surface"):("all layers"));
+      out = hc_fopen(filename,"w","main");	
+      if(p->print_kernel_only){
+	hc_print_geoid_kernel(geoid,model->r,model->nradp2,out,p->verbose);
+      }else{			/* geoid solutions */
+	if(p->compute_geoid == 1) /* surface layer */
+	  hc_print_sh_scalar_field(geoid,out,FALSE,geoid_binary,p->verbose);
+	else{			/* all layers */
+	  for(i=0;i < model->nradp2;i++){
+	    sh_print_parameters_to_stream((geoid+i),1,i,model->nradp2,
+					  HC_Z_DEPTH(model->r[i]),out,
+					  FALSE,geoid_binary,p->verbose); 
+	    sh_print_coefficients_to_stream((geoid+i),1,out,
+					    unitya,geoid_binary,p->verbose); 
+	  }
 	}
       }
+      fclose(out);
     }
-    fclose(out);
   }
   /* 
      
